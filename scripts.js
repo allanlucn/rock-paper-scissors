@@ -45,16 +45,6 @@ function playGame(){
 
 }
 
-    for (let i = 1; i <=5; i++){
-        console.log (`Rodada ${i}`)
-        humanSelection= getHumanChoice();
-        computerSelection = getComputerChoice();
-
-        playRound(humanSelection,computerSelection)
-    }
-
-    console.log("Terminou")
-    console.log(`Placar final: Humano ${humanScore} x ${computerScore} Computador.`);
     if (humanScore > computerScore){
         console.log("Você venceu!")
     }
