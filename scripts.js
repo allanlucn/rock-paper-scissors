@@ -1,59 +1,71 @@
-function getComputerChoice(){
-    const randomNumber = Math.random();
+const choiceButtons = document.querySelectorAll(".choice");
+const logDiv = document.querySelector("#log");
+const playerScoreSpan = document.querySelector("#player-score");
+const computerScoreSpan = document.querySelector("#computer-score");
+const buttonContainer = document.querySelector("#buttons");
 
-    if (randomNumber <= 0.33){
-        return "Pedra";
-    }
-    else if (randomNumber <= 0.66){
-        return "Papel";
-    }
-    else{
-        return "Tesoura";
-    }
+let humanScore = 0;
+let computerScore = 0;
+
+function getComputerChoice() {
+  const randomNumber = Math.random();
+
+  if (randomNumber <= 0.33) {
+    return "Pedra";
+  } else if (randomNumber <= 0.66) {
+    return "Papel";
+  } else {
+    return "Tesoura";
+  }
 }
 
-function getHumanChoice(){
-    let userChoice = prompt("Qual a sua escolha? (Pedra, Papel, ou Tesoura)?")
-    return userChoice;
+function playRound(HumanChoice, ComputerChoice) {
+  const human = HumanChoice.toLowerCase();
+  const computer = ComputerChoice.toLowerCase();
+
+  if (human === computer) {
+    console.log(`Empate! Os dois escolheram ${computer}`);
+    logDiv.textContent = `Empate! Os dois escolheram ${computer}.`;
+  } else if (
+    (human === "pedra" && computer === "tesoura") ||
+    (human === "papel" && computer === "pedra") ||
+    (human === "tesoura" && computer === "papel")
+  ) {
+    humanScore++;
+    logDiv.textContent = `Você venceu! ${human} ganha de ${computer}.`;
+    console.log(`Você venceu! ${human} ganha de ${computer}.`);
+  } else {
+    computerScore++;
+    logDiv.textContent = `Você perdeu! ${computer} ganha de ${human}.`;
+    console.log(`Você perdeu! ${computer} ganha de ${human}.`);
+  }
+}
+function anunciarVencedor() {
+  if (humanScore === 5) {
+    logDiv.textContent = "Parabéns, você venceu a partida!";
+  } else {
+    logDiv.textContent = "Você perdeu a partida!";
+  }
 }
 
-function playGame(){
-    let humanScore =0;
-    let computerScore=0;
-    let humanSelection;
-    let computerSelection;
- 
- 
-    function playRound(HumanChoice,ComputerChoice){
-    const human= HumanChoice.toLowerCase();
-    const computer= ComputerChoice.toLowerCase();
-    if (
-        human === computer){
-            console.log(`Empate! Os dois escolheram ${computer}`);
-    }
-    else if(
-        (human === "pedra" && computer === "tesoura") ||
-        (human === "papel" && computer === "pedra") ||
-        (human === "tesoura" && computer ==="papel")){
-            humanScore++;
-            console.log(`Você venceu! ${human} ganha de ${computer}.`)
-            }
-    else{
-        computerScore++;
-        console.log(`Você perdeu! ${computer} ganha de ${human}.`)
-    }
-
+function substituirBotoes() {
+  buttonContainer.innerHTML =
+    '<button id ="resetButton">Jogar Novamente?</button>';
+  const resetButton = document.querySelector("#resetButton");
+  resetButton.addEventListener("click", () => {
+    location.reload();
+  });
 }
-
-    if (humanScore > computerScore){
-        console.log("Você venceu!")
+choiceButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const humanSelection = button.value;
+    const computerSelection = getComputerChoice();
+    playRound(humanSelection, computerSelection);
+    playerScoreSpan.textContent = `Jogador: ${humanScore}`;
+    computerScoreSpan.textContent = `Computador: ${computerScore}`;
+    if ((humanScore === 5) | (computerScore === 5)) {
+      anunciarVencedor();
+      substituirBotoes();
     }
-    else if(computerScore > humanScore){
-        console.log("Você perdeu!")
-    }
-    else{
-        console.log("O jogo terminou em Empate!")
-    }
-}
-
-playGame();
+  });
+});
