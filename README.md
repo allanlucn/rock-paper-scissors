@@ -4,6 +4,8 @@
 
 Implementação do clássico jogo "Pedra, Papel e Tesoura" com interface gráfica interativa.
 
+🎮 [Jogar agora](https://allanlucn.github.io/rock-paper-scissors/)
+
 ## Funcionalidades
 
 - Interface com botões para escolher Pedra, Papel ou Tesoura
